@@ -1,0 +1,2231 @@
+local Player = game.Players.LocalPlayer
+
+game.StarterGui:SetCore("SendNotification", {
+            Title = "NiggieHub";
+            Text = "Script Loading.",
+            Duration = 3
+          })
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
+          if islclosure(syn.request) then
+            while true do end
+            end
+          
+            local PlaceID = game.PlaceId
+            local AllIDs = {}
+            local foundAnything = ""
+            local actualHour = os.date("!*t").hour
+            local Deleted = false
+            local File = pcall(function()
+                AllIDs = game:GetService('HttpService'):JSONDecode(readfile("FrodikeNotSameServers.json"))
+            end)
+            if not File then
+                table.insert(AllIDs, actualHour)
+                writefile("FrodikeNotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+            end
+            function TPReturner()
+                local Site;
+                if foundAnything == "" then
+                    Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+                else
+                    Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+                end
+                local ID = ""
+                if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+                    foundAnything = Site.nextPageCursor
+                end
+                local num = 0;
+                for i,v in pairs(Site.data) do
+                    local Possible = true
+                    ID = tostring(v.id)
+                    if tonumber(v.maxPlayers) > tonumber(v.playing) then
+                        for _,Existing in pairs(AllIDs) do
+                            if num ~= 0 then
+                                if ID == tostring(Existing) then
+                                    Possible = false
+                                end
+                            else
+                                if tonumber(actualHour) ~= tonumber(Existing) then
+                                    local delFile = pcall(function()
+                                        delfile("FrodikeNotSameServers.json")
+                                        AllIDs = {}
+                                        table.insert(AllIDs, actualHour)
+                                    end)
+                                end
+                            end
+                            num = num + 1
+                        end
+                        if Possible == true then
+                            table.insert(AllIDs, ID)
+                            wait()
+                            pcall(function()
+                                writefile("FrodikeNotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                                wait()
+                                game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                            end)
+                            wait(4)
+                        end
+                    end
+                end
+            end
+            
+            function Teleport()
+                while wait() do
+                    pcall(function()
+                        TPReturner()
+                        if foundAnything ~= "" then
+                            TPReturner()
+                        end
+                    end)
+                end
+            end
+            
+                local vu = game:GetService("VirtualUser")
+                game:GetService("Players").LocalPlayer.Idled:connect(function()
+                vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                wait(1)
+                vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                end)
+                ----Anti Kick
+                local TPBypass
+                TPBypass = hookfunction(getrawmetatable(game).__namecall, newcclosure(function(self, ...)
+                local args = {...}
+                if self.Name == "Returner" and args[1] == "idklolbrah2de"  then
+                      return "  ___XP DE KEY"
+                  end
+                return TPBypass(self, ...)
+                end))
+                ----Tp Bypass
+                local Func = { }
+                local TempData = {
+                ["ItemSteal"] = false,
+                ["MoneySteal"] = false,
+                ["AutoStand"] = true,
+                ["Hooks"] = {},
+                ["Mod"] = false,
+                ["Shiny Farm"] = false,
+                ["AutoQuest"] = true,
+                ["Auto Farm"] = false,
+                ["Item Farm"] = false,
+                ["ItemEsp"] = false,
+                ["Notify"] = false,
+                ["Anti-Burn"]  = false,
+                ["Attach_Victim"] = nil,
+                ["ItemUpdateSpeed"] = 0.5,
+                ["HopCount"] = 7,
+                ["Music"] = 4828362386,
+                ["Color"] = "133, 86, 177",
+                ["RenderCONN"] = { },
+                ["StandToggles"] = { },
+                ["Item Toggles"] = {},
+                ["PickupItems"] = {},
+                ["SelectedStands"] = {},
+                ["AllStands"] = {"White Poison", "Violet Fog", "Six Pistols", "Airsmith", "Scarlet King", "Golden Spirit", "Zipper Fingers", "Ice Album", "Ms. Vice President", "Ocean Boy", "That Hand", "Shining Sapphire", "Deadly King", "Red Hot Chili Pepper", "Violet Vine", "Tentacle Green", "Grey Rapier", "Magician's Ember", "Void", "Platinum Sun", "The Universe", "Anubiz"},
+                ["AutoDrop"] = false,
+                ["Blooda"] = 5,
+                ["AutoBlood"] = "false",
+                ["M1Spam"] = false,
+                ["Bypass_Enx"] = true,
+                ["Sell"] = {},
+                ["SellDelay"] = 0.5,
+                ["Auto Sell"] = false,
+                ["WalkSpeed"] = 100,
+                ["JumpPower"] = 100,
+                ["FunnyPilot"] = false,
+                ["Auto Spawn Stand"] = true,
+                ["Tracers"] = false,
+                ["Cricles"] = true,
+                ["Marbel Wall"] = false,
+                ["Notif"] = true,
+                ["Money"] = false,
+                ["Moneya"] = 0,
+                ["AllItems"] = {"Mysterious Arrow", "Pure Rokakaka", "Rokakaka", "Diamond", "Lucky Arrow", "DEO's Diary", "Steel Ball", "Rib Cage of The Saint's Corpse", "Stone Mask", "Gold Coin", "Quinton's Glove", "Ancient Scroll", "Zepellin's Headband"},
+                }
+
+
+                
+                local Character = Player.Character or Player.CharacterAdded:wait()
+                local Flux = loadstring(game:HttpGet"https://raw.githubusercontent.com/frodike/fortnite/main/flux")()
+                local win = Flux:Window("Frodike's Hub", "Your Bizzare Adventure", Color3.fromRGB(133, 86, 177), Enum.KeyCode.RightShift) 
+                --[[Bypass was here
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ...
+                ]]
+                print("Script Batch 1 Loaded")
+                local tab = win:Tab("Speed And Jump", "http://www.roblox.com/asset/?id=6026681578")
+                Player.CharacterAdded:Wait()
+                tab:Slider("Speed","Makes You Faster", 16, 1000, 100, function(IntVal)
+                TempData["WalkSpeed"] = IntVal
+                print("Speed =" ,IntVal)
+                end)
+                tab:Toggle("Speed", "Turns On The Walkspeed For you!",false, function(BooleanVal)
+                  if BooleanVal then
+                  TempData.RenderCONN["Walkspeed"] = game:GetService("RunService").RenderStepped:Connect(function()
+                      if Player.Character and Player.Character:FindFirstChild("Humanoid") then
+                          Player.Character.Humanoid.WalkSpeed = TempData["WalkSpeed"]
+                      end
+                  end)
+                  else
+                  TempData.RenderCONN["Walkspeed"]:Disconnect()
+                  end
+                  print("Jump Set To", BooleanVal)
+                  end)
+                
+                tab:Line()
+                
+                tab:Slider("JumpPower","Makes You Jump Higher", 50, 1000, 100, function(IntVal)
+                TempData["JumpPower"] = IntVal
+                print("JumpPower =" ,IntVal)
+                end)
+                
+                tab:Toggle("Jump", "Sets your jump power", false, function(BooleanVal)
+                if BooleanVal then
+                  TempData.RenderCONN["Jumppower"] = game:GetService("RunService").RenderStepped:Connect(function()
+                      if Player.Character and Player.Character:FindFirstChild("Humanoid") then
+                          Player.Character.Humanoid.JumpPower = TempData["JumpPower"]
+                      end
+                  end)
+                else
+                  TempData.RenderCONN["Jumppower"]:Disconnect()
+                end
+                print("Jump Set To", BooleanVal)
+                end)
+                --gogogaga
+                
+                --gogogaga
+                local tab = win:Tab("AutoSell", "http://www.roblox.com/asset/?id=6035067843")
+                local OnRender_AS;
+                tab:Toggle("Auto Sell", "Sells All Items On List", false, function(BooleanVal)
+              
+                    if BooleanVal then
+                        OnRender_AS = game:GetService("RunService").RenderStepped:Connect(function()
+                            for i,v in pairs(TempData.Sell) do
+                                local item = Player.Backpack:FindFirstChild(v)
+                                if item then
+                                    Player.Character.Humanoid:EquipTool(item);
+                                    local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                            ["NPC"] = "Merchant",
+                                            ["Option"] = "Option1",
+                                            ["Dialogue"] = "Dialogue5"
+                                        }
+                                    }
+                
+                                    game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                end
+                            end
+                        end)
+
+                    else
+                        if OnRender_AS then
+                            OnRender_AS:Disconnect();
+                        end
+                    end
+                    print("AutoSell Set To", BooleanVal)  
+                end)
+                tab:Toggle("Auto Sell All", "Sells All Of Selected Item", false, function(BooleanVal)
+                  
+                  if BooleanVal then
+                    OnRender_AS = game:GetService("RunService").RenderStepped:Connect(function()
+                        for i,v in pairs(TempData.Sell) do
+                            local item = Player.Backpack:FindFirstChild(v)
+                            if item then
+                                Player.Character.Humanoid:EquipTool(item);
+                                local args = {
+                                    [1] = "EndDialogue",
+                                    [2] = {
+                                        ["NPC"] = "Merchant",
+                                        ["Option"] = "Option2",
+                                        ["Dialogue"] = "Dialogue5"
+                                    }
+                                }
+                
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                            end
+                        end
+                    
+                    end)
+
+                else
+                    if OnRender_AS then
+                        OnRender_AS:Disconnect();
+                    end
+                end
+                print("AutoSell All Set To", BooleanVal)   
+                end)
+                
+                tab:Line()
+                
+                for i,v in pairs(TempData.AllItems) do
+                  local iToggle = tab:Toggle(v, "Item", false, function(state)
+                      if state then
+                          table.insert(TempData.Sell, v)
+                      else
+                          RemoveTable(TempData.Sell, v)
+                      end
+                      print(v, "Set To", state)
+                  end)
+                
+                  table.insert(TempData["Item Toggles"], iToggle)
+                end
+                print("Script Batch 2 Loaded")
+                local tab = win:Tab("Misc", "http://www.roblox.com/asset/?id=6023426915") --need new icons
+                tab:Button("Use Mysterius Arrow", "Sets Worthiness And Uses A Mysterious Arrow.", function()
+                  if game:GetService("Players").LocalPlayer.Backpack["Mysterious Arrow"] then do
+                local args = {
+                [1] = "LearnSkill",
+                [2] = {
+                  ["Skill"] = "Agility I",
+                  ["SkillTreeType"] = "Character"
+                  
+                }
+                }
+                print("Agility 1 Bought Successfully")   
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                local args = {
+                [1] = "LearnSkill",
+                [2] = {
+                  ["Skill"] = "Agility II",
+                  ["SkillTreeType"] = "Character"
+                  
+                }
+                }
+                print("Agility 2 Bought Successfully")   
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                local args = {
+                [1] = "LearnSkill",
+                [2] = {
+                  ["Skill"] = "Agility III",
+                  ["SkillTreeType"] = "Character"
+                  
+                }
+                }
+                print("Agility 3 Bought Successfully")      
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                local args = {
+                [1] = "LearnSkill",
+                [2] = {
+                  ["Skill"] = "Worthiness I",
+                  ["SkillTreeType"] = "Character"
+                  
+                }
+                }
+                print("Worthiness 1 Bought Successfully")      
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                local args = {
+                [1] = "LearnSkill",
+                [2] = {
+                  ["Skill"] = "Worthiness II",
+                  ["SkillTreeType"] = "Character"
+                  
+                }
+                }
+                
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))   
+                print("Worthiness 2 Bought Successfully")       
+                
+                local args = {
+                [1] = "EndDialogue",
+                [2] = {
+                  ["NPC"] = "Mysterious Arrow",
+                  ["Option"] = "Option1",
+                  ["Dialogue"] = "Dialogue2"
+                }
+                }
+                
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                end
+                if not game:GetService("Players").LocalPlayer.Backpack["Mysterious Arrow"] then do
+                game.StarterGui:SetCore("SendNotification", {
+                  Title = "Error";
+                  Text = "No Arrows In Inventory.",
+                  Duration = 3
+              })
+                print("Attemted To Use Arrow")
+                  end
+                  Flux:Notification("Attemted To Use Arrow", "Alright")
+                end
+              end
+            end)
+                
+                tab:Button("Use Roka", "Uses A Roka.", function()
+                  if game:GetService("Players").LocalPlayer.Backpack["Rokakaka"] then do
+                local args = {
+                  [1] = "EndDialogue",
+                  [2] = {
+                    ["NPC"] = "Rokakaka",
+                    ["Option"] = "Option1",
+                    ["Dialogue"] = "Dialogue2"
+                  }
+                }
+                
+                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                end
+                if not game:GetService("Players").LocalPlayer.Backpack["Rokakaka"] then do
+                game.StarterGui:SetCore("SendNotification", {
+                  Title = "Error";
+                  Text = "No Rokas In Inventory.",
+                  Duration = 3
+              })
+                print("Attemted To Use Roka")
+                end
+                Flux:Notification("Attemted To Use Roka", "Alright")
+                end
+                end
+                end)
+                tab:Line()
+                tab:Toggle("Spam Arcade Spins", "Spams The Arcade Spins.", false, function(BooleanVal)
+                  print("Attempting To Spam Arcade Spins")
+
+                    if BooleanVal then
+                        TempData["AutoArcade"] = true
+                        while TempData["AutoArcade"] do
+                          local args = {
+                            [1] = "EndDialogue",
+                            [2] = {
+                              ["NPC"] = "Item Machine",
+                              ["Option"] = "Option1",
+                              ["Dialogue"] = "Dialogue1"
+                            }
+                          }
+                      
+                          game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                          print("Rolled Arcade")
+                          wait(0.2)
+                        end
+                    else
+                        TempData["AutoArcade"] = false
+                    end
+                    print("AutoArcade Enabled Successfully")
+                    
+                    if game:GetService("Players").LocalPlayer.PlayerStats.Money.Value < 1500 then do
+                      game.StarterGui:SetCore("SendNotification", {
+                        Title = "Error";
+                        Text = " No Money.",
+                        Duration = 3
+                    })
+                    end
+                    end
+                end)
+                tab:Line()
+                
+                tab:Button("ESP", "Makes You See All Items Through Walls", function()
+                  print("Attemting To Enable")
+                    local Settings = {
+                      ItemData = {
+                      [4496695972] = { ItemName = "Arrow", Color = Color3.fromRGB(255, 120, 0) },
+                      [511706016] =  { ItemName = "Diamond", Color = Color3.fromRGB(81, 117, 255) },
+                      [3497428510] = { ItemName = "Rokakaka", Color = Color3.fromRGB(220, 50, 50) },
+                      [3583727108] = { ItemName = "Gold Coin", Color = Color3.fromRGB(255, 240, 0) },
+                      [4551120971] = { ItemName = "Stone Mask", Color = Color3.fromRGB(98, 37, 209) },
+                      [5249254947] = { ItemName = "Rib Cage of The Saint's Corpse", Color = Color3.fromRGB(50, 220, 50) },
+                      [5291254518] = { ItemName = "Steel Ball", Color = Color3.fromRGB(34, 139, 34) },
+                      [5675321032] = { ItemName = "DIO's Diary", Color = Color3.fromRGB(139, 69, 19) },
+                      [60791940] = { ItemName = "Ancient Scroll", Color = Color3.fromRGB(165, 42, 42) },
+                      [180620778] = { ItemName = "Quinton's Glove", Color = Color3.fromRGB(139, 0, 0) },
+                      [11124978] = { ItemName = "Zepellin's Headband", Color = Color3.fromRGB(250, 128, 114) }
+                   
+                      },
+                    Tracers = false,
+                    Circles = false,
+                    Distance = false,
+                    Notify = false
+                      }
+                   
+                      local function notify(a)
+                      local NotificationBindable = Instance.new("BindableFunction")
+                      NotificationBindable.OnInvoke = (function(text) end)
+                   
+                      game.StarterGui:SetCore("SendNotification", {
+                      Title = "Item spawned";
+                      Text = a;
+                      Duration = "5";
+                      Callback = NotificationBindable;
+                      })
+                      end
+                   
+                      local Wrapper = loadstring(game:HttpGet("https://pastebin.com/raw/9YKGCEmS"))()
+                      local Map = workspace.Item_Spawns.Items
+                   
+                      local function GetAsset(Id)
+                      if Id:sub(1, 13) == "rbxassetid://" then
+                      return tonumber(Id:sub(14, #Id)) -- rbxassetid://0
+                      else
+                      if Id:sub(1, 32) == "http://www.roblox.com/asset/?id=" then
+                      return tonumber(Id:sub(33, #Id))
+                      elseif Id:sub(1, 33) == "https://www.roblox.com/asset/?id=" then
+                      return tonumber(Id:sub(34, #Id))
+                      end
+                      return tonumber(Id) -- maybe idk
+                      end
+                      end
+                   
+                      local function IsItem(Mesh)
+                      local AssetId = GetAsset(Mesh.MeshId)
+                   
+                      for id, _ in pairs(Settings.ItemData) do
+                      if id == AssetId then
+                      return true
+                      end
+                      end
+                   
+                      return false
+                      end
+                   
+                      local function Esp(Item)
+                      local itemData = Settings.ItemData[GetAsset(Item.MeshId)] or { ItemName = "Unknown Item [???]", Color = Color3.fromRGB(255, 255, 255) }
+                      -- Some items decide to re-use mesh so oof!
+                   
+                      if Item.Material == Enum.Material.ForceField then
+                      itemData = { ItemName = "Pure Rokakaka", Color = Color3.fromRGB(233, 233, 233) }
+                      end
+                   
+                      if Settings.Notify then
+                             notify(itemData.ItemName)
+                      end
+                   
+                      Wrapper:AddObject(
+                      Item,
+                      itemData.ItemName,
+                      itemData.Color,
+                      Settings.Distance,
+                      Settings.Tracers,
+                      Settings.Circles
+                      )
+                      end
+                   
+                  
+                      -- Detect New Items
+                      Map.DescendantAdded:Connect(function(Descendant)
+                      if Descendant:IsA("MeshPart") then
+                      if IsItem(Descendant) then
+                      Esp(Descendant)
+                      end
+                      end
+                      end)
+                      Flux:Notifacation("Enabled ESP", "AlChraright")
+                      print("ESP Enabled Successfully")
+                  end)
+                  print("Script Batch 3 Loaded")
+          
+                tab:Button("Refresh All Item Locations", "Refreshes All Item Locations For ESP.", function()
+                   ---AutoFarm Begins Here
+                   local old_pos = Player.Character.PrimaryPart.CFrame --log old pos
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-413.53112792969,  827.54278564453, 42.011169433594)
+                   print("Teleport 1 Success")
+                   wait(0.1)
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-191.24629211426 ,827.0869140625 , -10.055070877075)
+                   print("Teleport 2 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-282.28414916992 ,826.04718017578 , -26.729415893555)
+                   print("Teleport 3 Success")
+                   wait(0.1) 
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-205.62605285645 ,829.04846191406 , -67.532608032227)
+                   print("Teleport 4 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-154.98663330078 ,829.00830078125 , -52.219764709473)
+                   print("Teleport 5 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-89.047630310059 ,830.90832519531 , -66.026138305664)
+                   print("Teleport 6 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(826.30889892578 ,803.84655761719 , -226.66427612305)
+                   print("Teleport 7 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(699.22119140625 ,803.84655761719 , -208.68244934082)
+                   print("Teleport 8 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(776.76434326172 ,807.17486572266 ,-355.8134765625)
+                   print("Teleport 9 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1050.7122802734 ,803.84729003906 ,-296.76510620117)
+                   print("Teleport 10 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(809.83520507812 ,803.84655761719 ,-81.491226196289)
+                   print("Teleport 11 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(796.341796875 ,810.68719482422 , -40.994129180908)
+                   print("Teleport 12 Success")
+                   wait(0.1)
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(836.11309814453 ,810.33142089844 ,-41.200565338135)
+                   print("Teleport 13 Success")
+                   wait(0.1)   
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1051.7955322266 ,815.47772216797 ,-25.381820678710001)
+                   print("Teleport 14 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1915.4926757812 ,822.24658203125 ,-39.561851501465)
+                   print("Teleport 15 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1985.0435791016 ,819.84655761719 ,-189.87425231934)
+                   print("Teleport 16 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2341.68359375 ,819.84655761719 ,-228.87698364258)
+                   print("Teleport 17 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(305.22045898438 ,803.84655761719 ,-185.82682800293)
+                   print("Teleport 18 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(339.23501586914 ,826.84722900391 ,-110.79901123047)
+                   print("Teleport 18 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(409.59423828125 ,826.64733886719 ,-89.112976074219)
+                   print("Teleport 19 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(453.85363769531 ,826.64733886719 ,115.3904876709)
+                   print("Teleport 20 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(428.88458251953 ,861.05114746094 ,-175.99559020996)
+                   print("Teleport 21 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(124.43515014648 ,826.84722900391 ,-153.63478088379)
+                   print("Teleport 22 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(222.72418212891 ,827.80584716797 , -85.74934387207)
+                   print("Teleport 23 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(130.63851928711 ,826.84704589844 ,-49.86185836792)
+                   print("Teleport 24 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(46.80810546875 ,826.84698486328 ,-98.422576904297)
+                   print("Teleport 25 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(27.974872589111 ,861.29296875 ,-10.053286552429)
+                   print("Teleport 26 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(375.23657226562 ,826.84704589844 ,-162.12173461914)
+                   print("Teleport 27 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(341.62973022461 ,826.84704589844 ,-131.64344787598)
+                   print("Teleport 28 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(479.29449462891 ,826.84716796875 ,254.90055847168)
+                   print("Teleport 29 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(452.22775268555 ,826.84716796875 ,302.7751159668)
+                   print("Teleport 30 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(315.51916503906 ,826.84716796875 ,261.26873779297)
+                   print("Teleport 31 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(518.22473144531 ,826.24731445312 ,360.57772827148)
+                   print("Teleport 32 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(429.50021362305 ,875.04724121094 ,387.19262695312)
+                   print("Teleport 33 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(129.19146728516 ,826.84704589844 ,379.81701660156)
+                   print("Teleport 34 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(32.098743438721 ,828.24719238281 ,302.8957824707)
+                   print("Teleport 35 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(171.77783203125 ,826.84710693359 ,255.28721618652)
+                   print("Teleport 36 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(199.16697692871 ,857.84704589844 ,258.2873840332)
+                   print("Teleport 37 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(21.905725479126 ,870.04718017578 ,280.63858032227)
+                   print("Teleport 38 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-74.956695556641 ,828.34704589844 ,386.41787719727)
+                   print("Teleport 39 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-152.78285217285 ,830.97821044922 ,413.20315551758)
+                   print("Teleport 40 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-99.575782775879 ,827.62579345703 ,429.30065917969)
+                   print("Teleport 41 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-118.483543396 ,835.71136474609 ,402.61944580078)
+                   print("Teleport 42 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-196.11956787109 ,826.84704589844 ,408.80563354492)
+                   print("Teleport 43 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-192.16874694824 ,803.84710693359 ,458.53912353516)
+                   print("Teleport 44 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-228.64126586914 ,826.84704589844 ,309.07147216797)
+                   print("Teleport 45 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-334.5627746582 ,827.84716796875 ,382.34112548828)
+                   print("Teleport 46 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-295.66107177734 ,827.7548828125 ,260.44488525390001)
+                   print("Teleport 47 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-243.06549072266 ,826.84704589844 ,97.641380310059)
+                   print("Teleport 48 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(145.40446472168 ,827.79797363281 ,106.12605285645)
+                   print("Teleport 49 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(84.441474914551 ,826.84704589844 ,104.43872070312)
+                   print("Teleport 50 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(43.941471099854 ,826.84704589844 ,268.90521240234)
+                   print("Teleport 51 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(172.65376281738 ,826.84704589844 ,278.38635253906)
+                   print("Teleport 52 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(236.93182373047 ,826.84704589844 ,430.49688720703)
+                   print("Teleport 53 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(210.55850219727 ,803.84710693359 ,460.701171875)
+                   print("Teleport 54 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(448.04244995117 ,803.87713623047 ,438.78884887695)
+                   print("Teleport 55 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(126.77220153809 ,803.84710693359 ,560.0048828125)
+                   print("Teleport 56 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-206.2195892334 ,890.84716796875 ,440.22219848633)
+                   print("Teleport 57 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-470.92459106445 ,803.84710693359 ,381.17669677734)
+                   print("Teleport 58 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-434.47100830078 ,803.84710693359 ,235.62271118164)
+                   print("Teleport 59 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-442.24462890625 ,803.84710693359 ,-198.76741027832)
+                   print("Teleport 60 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-101.06670379639 ,743.8486328125 ,8.9106760025024)
+                   print("Teleport 61 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-355.35842895508 ,743.84289550781 ,204.35467529297)
+                   print("Teleport 62 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-178.44441223145 ,720.17205810547 ,264.23211669922)
+                   print("Teleport 63 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(196.2378692627 ,671.93670654297 ,83.881690979004)
+                   print("Teleport 64 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(107.51532745361 ,749.04711914062 ,359.88635253906)
+                   print("Teleport 65 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(11.99014377594 ,744.07873535156 ,530.36346435547)
+                   print("Teleport 66 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(138.86274719238 ,743.84521484375 ,493.1076965332)
+                   print("Teleport 67 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-38.685668945312 ,729.07989501953 ,365.58688354492)
+                   print("Teleport 68 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(13.609048843384 ,733.42077636719 ,267.63186645508)
+                   print("Teleport 69 Success")
+                   wait(0.1)    
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-228.36434936523 ,751.04052734375 ,528.87542724609)
+                   print("Teleport 70 Success")
+                   wait(0.1)  
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-426.47561645508 ,743.84716796875 ,460.21655273438)
+                   print("Teleport 71 Success")
+                   wait(0.1)   
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-311.52005004883 ,722.84790039062 ,438.1628112793)
+                   print("Teleport 72 Success")
+                   wait(0.1)   
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-475.11709594727 ,738.84729003906 ,212.75103759766)
+                   print("Teleport 73 Success")
+                   wait(0.1)
+                   Player.Character.PrimaryPart.CFrame = old_pos --set to old pos
+                   print("Teleported Back")
+                  Flux:Notification("Tped To All Locations!", "Alright")
+                  print("Teleported To All Locations Success")
+                  end)
+                tab:Line()
+                tab:Button("Invis", "Makes You Invisible", function()
+                  
+                  print("Attempting To Go Invisible")
+                  --Bypass Function Here
+                  if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character:FindFirstChild("LowerTorso") and Player.Character.LowerTorso:FindFirstChild("Root") then
+                      local Place1 = CFrame.new(Vector3.new(1750.6010742188, 770.61102294922, 28.486907958984))
+                      local Place2 = Player.Character.HumanoidRootPart.CFrame
+                      Player.Character.HumanoidRootPart.CFrame = Place1
+                      print("Teleported To SafePlace")
+                      wait(0.5)
+                      Player.Character.LowerTorso.Root:Destroy()
+                      print("Detached Body")
+                      wait(0.5)
+                      Player.Character.HumanoidRootPart.CFrame = Place2
+                      print("Teleported Back")
+                  end
+                Flux:Notification("You Are Now Invisible!", "Alright")
+                print("Invis Enabled Successfully")
+                end) 
+                
+                tab:Button("Godmode", "Makes You Unable To Get Hit", function()
+                  print("Attempting To Enable Godmode")
+                --Bypass Function Here
+                if Player.Character and Player.Character:FindFirstChild("BindableFunction") then
+                  Player.Character.BindableFunction:Destroy()
+                end
+                Flux:Notification("You Are Now Invincible!","Alright")
+                print("Godmode Enabled Successfully")
+                end)
+                tab:Toggle("Anti TS", "Makes You Able To Move In TimeStop.", false, function(state)
+                if state then
+                  print("Attempting To Enable TS Resist")
+                  TempData.RenderCONN["Anti_TS"] = game:GetService("RunService").RenderStepped:Connect(function()
+                      if Player.Character and Player.Character:FindFirstChild("InTimeStop") then
+                          Player.Character:FindFirstChild("InTimeStop"):Destroy()
+                      end
+                  end)
+                else
+                  if TempData.RenderCONN["Anti_TS"] then
+                      TempData.RenderCONN["Anti_TS"]:Disconnect()
+                      print("Disconnected TS Resist")
+                  end
+                end
+                print("TS Resist Set To", state)
+                end)
+
+                tab:Button("Special Reset", "Escapes Death in SBR and GER Inf Death", function()
+                  print("Attempting To Special Reset")
+                  if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+                    Player.Character.Humanoid:Destroy()
+                  end
+                  print("Reset Successfully")
+                end)
+                tab:Toggle("Auto Pickup", "Automatically Picks Up All Items Close To You", false, function(Boolean)
+                  print("Attempting To Enable AutoPickup")
+                  if Boolean then
+                    TempData["AutoPickup"] = true;
+                    while wait(0.5) do
+                             
+                        print("Toggled AutoPickup Successfully")
+                      
+                        if not TempData["AutoPickup"] then
+                            break
+                        end
+                        end
+                    end    
+                if Boolean == false then do
+                  TempData["AutoPickup"] = false;
+                end
+                end
+                print("Enabled AutoPickup Successfully")
+              end)
+                print("Script Batch 4 Loaded")
+          
+                  tab:Button("No Reality Marble Wall", "Removes All Reality Marble Walls", function()
+                  print("Attempting To Remove Wall")
+                      game:GetService("Workspace")["Reality Marble Wall"]:Destroy()
+                      print("Removed Wall 1")
+                      game:GetService("Workspace")["Reality Marble Wall"]:Destroy()
+                      print("Removed Wall 2")
+                      game:GetService("Workspace")["Reality Marble Wall"]:Destroy()
+                      print("Removed Wall 3")
+                      game:GetService("Workspace")["Reality Marble Wall"]:Destroy()
+                      print("Removed Wall 4")
+                      game:GetService("Workspace")["Reality Marble Wall"]:Destroy()
+                      print("Removed Wall 5")
+                      game:GetService("Workspace")["Reality Marble Wall"]:Destroy()
+                      print("Removed Wall 6")
+                      print("Removed All Walls")
+                      game.Players.LocalPlayer.Character.HumanoidRootPart["Reality Marble Light"]:Destroy()
+                      print("Removed Red Light")
+                      game:GetService("Workspace").Locations["The Outskirts"].TheBoxLighting.Blur = 0
+          print("Removed Blur")
+          game:GetService("Workspace").Locations["The Outskirts"].TheBoxLighting.FogEnd = math.huge
+          print("Removed Blindness")
+          game:GetService("Workspace").Locations["The Outskirts"].TheBoxLighting.Brightness = 10
+          print("Added Brightness")
+                Flux:Notifacation("Removed All Reality Marble Walls", "Alright")
+                print("Removed All Reality Marble Walls And Light")
+                end)
+                tab:Toggle("Reduce Burn Only Works For Vampires :(", "Reduces burning", false, function(Boolean)
+                    print("Attempting To Enable Reduce Burn")
+                    if Boolean then
+                      TempData["Anti-Burn"] = true;
+                      while wait(0.5) do
+                        local args = {
+                            [1] = "VampireBurnOff",
+                        }
+                          game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                              print("Removing Brurn")
+                          if not TempData["Anti-Burn"] then
+                              break
+                          end
+                        end
+                      end    
+                  if Boolean == false then do
+                    TempData["Anti-Burn"] = false;
+                  end
+                    end
+                    print("Successfully Enabled")
+                  end)
+
+                tab:Toggle("Steal Money", "Steals all dropped money", false, function(Boolean)
+                  if Boolean then
+                    TempData["MoneySteal"] = true;
+                    while wait(0.5) do
+                        local paapaa = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+                      print("Attempting To Steal Money")
+                            game:GetService("Workspace").Money.CFrame = CFrame.new(paapaa)
+                            print("Teleported Money Successfully")
+                        if not TempData["MoneySteal"] then
+                            break
+                        end
+                      end
+                    end    
+                if Boolean == false then do
+                  TempData["MoneySteal"] = false;
+                end
+                  end
+                end)
+                
+                
+                tab:Toggle("Steal Items", "Steals all dropped Items", false, function(Boolean)
+                  if Boolean then
+                    TempData["ItemSteal"] = true;
+                    while wait(0.5) do
+                        local paapaa = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+                      print("Attempting To Steal Item")
+                      if game:GetService("Workspace").Item and game:GetService("Workspace").Item.Base then do
+                        game:GetService("Workspace").Item.Base.CFrame = CFrame.new(paapaa)
+                        print("Teleported Items Successfully")
+                        if not TempData["ItemSteal"] then
+                            break
+                        end
+                      end
+                      end
+                    end    
+                if Boolean == false then do
+                  TempData["ItemSteal"] = false;
+                end
+                end
+              end
+                end)
+                
+                tab:Button("Invis SBR", "Makes You Invisible In SBR", function()
+                  print("Attempting To Go Invisible")
+                  if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character:FindFirstChild("LowerTorso") and Player.Character.LowerTorso:FindFirstChild("Root") then
+                  local Place1 = CFrame.new(Vector3.new(-1417.92529, 399.431763, 7987.59131))
+                      local Place2 = Player.Character.HumanoidRootPart.CFrame
+                      Player.Character.HumanoidRootPart.CFrame = Place1
+                      print("Teleported To SafePlace")
+                      wait(0.5)
+                      Player.Character.LowerTorso.Root:Destroy()
+                      print("Detached Body")
+                      wait(0.5)
+                      Player.Character.HumanoidRootPart.CFrame = Place2
+                      print("Teleported Back")
+                  end
+                  print("SBR Invisible Enabled Successfully")
+                end)
+
+                tab:Button("Rejoin Game", "Rejoins The Game You Are Currently in", function()
+                  print("Attempting To Rejoin")
+                  Flux:Notification("Rejoining...", "Alright")
+                  local popo = game.PlaceId
+                  local Placehaha = popo
+                  game:GetService("TeleportService"):Teleport(Placehaha, game.Players.LocalPlayer)
+                  Flux:Notifacation("Rejoining...", "Alright")
+                  print("Rejoining Succsessfully")
+                  
+                end)
+                tab:Button("Hop To Another Server", "Joins Another Server", function()
+                  Flux:Notification("Hopping To Another Server...", "Alright")
+                  print("Attempting To Server Hop")     
+                 Teleport()
+                end)
+              tab:Line()
+                tab:Button("Debug Console For Synapse X", "Opens Debug Console", function()
+                  print("Attempting To Open Console")
+                  if (assert(syn, "not using synapse")) then 
+                    print("Console Opened Successfully")
+                hookfunction(print, function(a)
+                rconsoleprint("\n" .. a)
+                end)
+                hookfunction(error, function(a)
+                rconsoleerr("\n" .. a)
+                end)
+                hookfunction(warn, function(a)
+                rconsolewarn("\n" .. a)
+                end)
+                getgenv().info = function(a)
+                rconsoleinfo("\n" .. a)
+                end
+                end
+                Flux:Notifacation("Opening Funny Console...", "Alright")
+                end)
+                tab:Line()
+               
+                local tab = win:Tab("Weather", "http://www.roblox.com/asset/?id=6034467794")
+                tab:Label ("Weather, Works In Main Game Idk If It Works In SBR")
+                
+                tab:Line()
+                tab:Button("Remove Fog SBR And Main Game", "Removes Fog.", function()
+                if game.Lighting.FogEnd ~= 50000 then
+                game.Lighting.FogEnd = 50000
+                game.Lighting:GetPropertyChangedSignal("FogEnd"):Connect(function()
+                    game.Lighting.FogEnd = 50000
+                end)
+                end
+                game:GetService("Workspace").IgnoreInstances.Fog.Transparency = 1
+                Flux:Notification("Removed Fog Successfully!", "Alright")
+                print("Removed Fog Successfully")
+                end)
+                  tab:Button("Sunny", "Changes The Weather To Sunny.", function(t)
+                    game:GetService("Workspace").Weather.Value = "Sunny"
+                    Flux:Notification("Changed The Weather Successfully!", "Alright")
+                    print("Weather Set To Sunny Successfully")
+                    end)
+                    tab:Button("Snowy", "Changes The Weather To Snowy.", function(t)
+                      game:GetService("Workspace").Weather.Value = "Snowy"
+                      Flux:Notification("Changed The Weather Successfully!", "Alright")
+                      print("Weather Set To Snowy Successfully")
+                      end)
+                      tab:Button("Rainy", "Changes The Weather To Rainy.", function(t)
+                        game:GetService("Workspace").Weather.Value = "Rainy"
+                        Flux:Notification("Changed The Weather Successfully!", "Alright")
+                        print("Weather Set To Rainy Successfully")
+                        end)
+                        tab:Button("Foggy", "Changes The Weather To Foggy.", function(t)
+                          game:GetService("Workspace").Weather.Value = "Foggy"
+                          Flux:Notification("Changed The Weather Successfully!", "Alright")
+                          print("Weather Set To Foggy Successfully")
+                          end)
+                        
+                tab:Line()
+                
+                
+                local tab = win:Tab("Teleports", "http://www.roblox.com/asset/?id=6035190846")
+                tab:Button("Teleport To 1v1s", "Teleports You To 1v1s.", function()
+                  local PlaceID = 5290796989
+                
+                  game:GetService("TeleportService"):Teleport(PlaceID, game.Players.LocalPlayer)
+                  Flux:Notifacation("Teleporting To 1v1s...", "Alright")
+                  print("Teleporting Successfully")
+                  end)
+                tab:Button("Casual SBR", "Opens Casual SBR.", function()
+                  local args = {
+                    [1] = "EndDialogue",
+                    [2] = {
+                      ["NPC"] = "Metal Ball Run",
+                      ["Option"] = "Option1",
+                      ["Dialogue"] = "Dialogue2"
+                      
+                    }
+                  }
+                
+                  game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                  Flux:Notifacation("Opened SBR Comp Select (Requires Prestige 2+)", "Alright")
+                  print("Opened SBR GUI Successfully")
+                  end)
+                  tab:Button("Comp SBR", "Opens Comp SBR.", function()
+                    local args = {
+                      [1] = "EndDialogue",
+                      [2] = {
+                        ["NPC"] = "[COMPETITIVE] Metal Ball Run",
+                        ["Option"] = "Option1",
+                        ["Dialogue"] = "Dialogue2"
+                
+                      }
+                    }
+                
+                  game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                  Flux:Notifacation("Opened SBR Comp Select (Requires Prestige 2+)", "Alright")
+                  print("Opened Competetive SBR GUI Successfully")
+                  end)
+                
+                  tab:Line()
+
+                tab:Button("Pizzeria", "Teleports you to The Pizza Place In Main Game", function()
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(342.56298828125, 829.21105957031, 51.465438842773)
+                    Flux:Notifacation("Teleported You!", "Alright")
+                    print("Teleported To Pizza Place Successfully")
+                end)  
+                
+                tab:Button("Arcade", "Teleports you to Arcade In Main Game", function()
+                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-106.46913909912, 830.29241943359, -66.326622009277)
+                  Flux:Notifacation("Teleported You!", "Alright")
+                  print("Teleported To Arcade Successfully")
+                end) 
+                print("Script Batch 5 Loaded")
+          
+                tab:Button("Caffe", "Teleports you to The Caffe In Main Game", function()
+                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-105.7872543335, 827.38989257812, 378.13549804688)
+                  Flux:Notifacation("Teleported You!", "Alright")
+                  print("Teleported To Caffe Successfully")
+                end) 
+                
+                tab:Button("Tallest Peak", "Teleports you to The Tallest Peak In Main Game", function()
+                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1284.8059082031, 1142.6112060547, -37.476982116699)
+                  Flux:Notifacation("Teleported You!", "Alright")
+                  print("Teleported To Tallest Peak Successfully")
+                end)  
+                
+                tab:Button("Vampire Bar", "Teleports you to The Vampire Bar In Main Game", function()
+                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(191.58944702148, 712.80999755859, 362.03094482422)
+                  Flux:Notifacation("Teleported You!", "Alright")
+                  print("Teleported To Vampire Bar Successfully")
+                end)  
+                
+                
+                  tab:Line()
+                
+                tab:Button("SBR SPAWN", "Teleports You To The Spawn SBR.", function() 
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1366.3017578125, 319.94351196289, -821.36932373047)
+                Flux:Notification("Teleported You To SBR SPAWN!", "Alright")
+                print("Teleported To SBR Spawn Successfully")
+                end)
+                
+                
+                
+                tab:Button("SBR STAGE 1", "Teleports You To The First Stage in SBR.", function()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2167.6384277344, 340.35095214844, 2808.1423339844)
+                Flux:Notification("Teleported You To SBR STAGE 1!", "Alright")
+                print("Teleported To Stage 1 Successfully")
+                end)
+                
+                
+                
+                tab:Button("SBR STAGE 2 ", "Teleports You To The Second Stage in SBR.", function()
+                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1183.1025390625, 264.98504638672, 3811.6518554688)
+                  Flux:Notification("Teleported You To SBR STAGE 2!", "Alright")
+                  print("Teleported To Stage 2 Successfully")
+                  end)
+                
+                 
+                
+                  tab:Button("SBR STAGE 3 ", "Teleports You To The Third Stage in SBR.", function()
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-681.57122802734, 434.35174560547, 5940.322265625)
+                    Flux:Notification("Teleported You To SBR STAGE 3!", "Alright")
+                    print("Teleported To Stage 3 Successfully")
+                    end)
+                    
+                
+                    tab:Button("SBR STAGE 4 ", "Teleports You To The First Fourth in SBR.", function()
+                      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1192.0217285156, 420.35247802734, 8099.0151367188)
+                      Flux:Notification("Teleported You To SBR STAGE 4!", "Alright")
+                      print("Teleported To Stage 4 Successfully")
+                      end)
+                
+                      tab:Line()
+                
+                      tab:Button("Guy Zeppeli", "Teleports You To Guy Zeppeli aka Spin guy.", function()
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1791.7946777344, 414.69183349609, 9023.2236328125)
+                        Flux:Notification("Teleported You To Guy Zeppeli!", "Alright")
+                        print("Teleported To Zeppeli Successfully")
+                        end)
+                        tab:Button("Horse Feed", "Teleports You To Horse Feed Dialouge.", function()
+                          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1464.8510742188, 285.30026245117, -718.4638671875)
+                          Flux:Notification("Teleported You To Buy Horse Feed!", "Alright")
+                          print("Teleported To Horse Feed Successfully")
+                          end)
+                          tab:Button("Teleport To Buy Umbrella", "Teleports You To Umbrella Girl.", function()
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1405.8586425781, 290.33209228516, -740.55090332031)
+                            Flux:Notification("Teleported You To Umbrella Girl!", "Alright")
+                            print("Teleported To Umbrella Girl Successfully")
+                            end)
+                            tab:Button("Teleport To Prestige Master Will", "Teleports You To The Prestige Master Will.", function()
+                              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1568.3509521484, 287.45086669922, -877.41064453125)
+                              Flux:Notification("Teleported You To Prestige Master Will!", "Alright")
+                              print("Teleported To Prestige Master Will Successfully")
+                              end)
+                
+                
+                              local tab = win:Tab("Storyline", "http://www.roblox.com/asset/?id=6034281934")
+                              tab:Button("Storyline Completer 9000.","Completes the storyline",  function()
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #1",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue2"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 1 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #1",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue6"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 2 Success!")
+                                 local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #2",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue3"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 3 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #3",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue3"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 4 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #3",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue6"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 5 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #4",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue3"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 6 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #5",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue5"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 7 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #",
+                                    ["Option"] = "Option",
+                                    ["Dialogue"] = "Dialogue"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 8 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #",
+                                    ["Option"] = "Option",
+                                    ["Dialogue"] = "Dialogue"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 9 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #6",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue5"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 10 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #7",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue5"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 11 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #8",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue4"
+                                  }
+                                }
+                                print("Script Batch 6 Loaded")
+          
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 12 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #9",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue7"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 13 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #10",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue6"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 14 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #11",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue8"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 15 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #11",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue11"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 16 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #11",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue13"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 17 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #12",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue3"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 18 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #12",
+                                    ["Dialogue"] = "StorylineHint"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 19 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #13",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue7"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Dialogue 20 Success!")
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Storyline #14",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue2"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("All Diaglogues Success!")
+                                end)     
+                 
+                                tab:Label("Current Objective")
+                               
+                                  
+                                local quest = game:GetService("Players").LocalPlayer.PlayerStats.Quest.Value
+                              
+                                tab:Label(quest)
+                                
+                                tab:Line()
+                
+                                tab:Label("All Boss TP")
+                                print("Script Batch 7 Loaded")
+          
+                                tab:Button("Teleport To BodyGuards", "Teleports you to the bodyguards", function()
+                                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(648.60333251953, 803.61120605469, -285.00451660156)
+                                Flux:Notifacation("Teleported You!", "Alright")
+                                print("Teleported To BodyGuards Successfully")
+                                end)
+                                tab:Button("Teleport To Leaky Eye Luca", "Teleports you to Leaky Eye Luca", function()
+                                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(451.48645019531, 826.21124267578, 46.535018920898)
+                                  Flux:Notifacation("Teleported You!", "Alright")
+                                  print("Teleported To Luca Successfully")
+                                  end)
+                                  tab:Button("Teleport To Bruno Buccarati", "Teleports you to Bruno Buccarati", function()
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(939.50543212891, 812.01049804688, 13.052396774292)
+                                    Flux:Notifacation("Teleported You!", "Alright")
+                                    print("Teleported To Bruno Successfully")
+                                    end)
+                                    tab:Button("Teleport To Fugo", "Teleports you to Fugo", function()
+                                      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1082.3209228516, 803.01049804688, -257.30099487305)
+                                      Flux:Notifacation("Teleported You!", "Alright")
+                                      print("Teleported To Fugo Successfully")
+                                      end)
+                                      tab:Button("Teleport To Pesci", "Teleports you to Pesci", function()
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1518.2908935547, 819.13806152344, -5.8533396720886)
+                                        Flux:Notifacation("Teleported You!", "Alright")
+                                        print("Teleported To Pesci Successfully")
+                                        end)
+                                        tab:Button("Teleport To Ghiaccio", "Teleports you to Ghiaccio", function()
+                                          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2263.3461914062, 819.01049804688, -128.64933776855)
+                                          Flux:Notifacation("Teleported You!", "Alright")
+                                          print("Teleported To Ghiaccio Successfully")
+                                          end)
+                                          tab:Button("Teleport To Diavalo", "Teleports you to Diavalo", function()
+                                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(174.65832519531, 967.61114501953, 1009.0193481445)
+                                            Flux:Notifacation("Teleported You!", "Alright")
+                                            print("Teleported To Diavalo Successfully")
+                                            end)
+                                            tab:Button("Teleport To Joe P3", "Teleports you to Joe part 3", function()
+                                              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(897.24816894531, 803.01049804688, -129.01737976074)
+                                              Flux:Notifacation("Teleported You!", "Alright")
+                                              print("Teleported To Joe P3 Successfully")
+                                              end)
+                                              tab:Button("Teleport To Dio", "Teleports you to Dio", function()
+                                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(544.57684326172, 943.61114501953, -16.568744659424)
+                                                Flux:Notifacation("Teleported You!", "Alright")
+                                                print("Teleported To Dio Successfully")
+                                                end)
+                                                tab:Button("Teleport To Joe P6", "Teleports you to Joe part 6", function()
+                                                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-246.83889770508, 770.61120605469, 955.38092041016)
+                                                  Flux:Notifacation("Teleported You!", "Alright")
+                                                  print("Teleported To Joe P6 Successfully")
+                                                  end)
+                                                  tab:Button("Teleport To Dio Over Heaven", "Teleports you to Dio Over Heaven", function()
+                                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(8493.55078125, 53.02025604248, 8150.2841796875)
+                                                    Flux:Notifacation("Teleported You!", "Alright")
+                                                    print("Teleported To DioOH Successfully")
+                                                    end)
+                                TempData.Moves = {
+                                  ["UseMove"] = function(key)
+                                      local args = {
+                                          [1] = "InputBegan",
+                                          [2] = {
+                                              ["Input"] = Enum.KeyCode[key:upper()]
+                                          }
+                                      }
+                                  
+                                      Player.Character.RemoteEvent:FireServer(unpack(args))
+                                  end,
+                                  ["Punch"] = function()
+                                      local args = {
+                                          [1] = "Attack",
+                                          [2] = "m1"
+                                      }
+                              
+                                      Player.Character.RemoteFunction:InvokeServer(unpack(args))
+                                  end,
+                                  ["PowerPunch"] = function()
+                                      local args = {
+                                          [1] = "Attack",
+                                          [2] = "m2"
+                                      }
+                              
+                                      Player.Character.RemoteFunction:InvokeServer(unpack(args))
+                                  end,
+                          
+                                  ["All"] = function()
+                                      if Func.ReturnData("HasStand") then
+                                          for i,v in pairs(Player.Character.StandSkills:GetChildren()) do
+                                              local key = string.sub(v.Name, 14, #v.Name):upper()
+                                              if table.find(TempData.AutofarmSettings.UsedMoves, key) then
+                                                  TempData.Moves.UseMove(key)
+                                              end
+                                          end
+                                      end
+                                      TempData.Moves.Punch()
+                                  end
+                              } --// this is needed for autofarm srry its messy
+                          
+                          
+                              TempData.AutofarmSettings = {
+                                  ["Distance"] = 5,
+                                  ["Auto Spawn Stand"] = true,
+                                  ["UsedMoves"] = {},
+                                  ["NPC_Table"] = {},
+                                  ["SelectedNPC"] = nil,
+                                  ["Farming"] = false,
+                                  ["FixThread"] = nil
+                              }
+                              
+                              TempData.Completed = false
+                          
+                              TempData.Kill = function(npc)
+                                  assert(npc, "No NPC provided")
+                          
+                                  if not TempData.Target then
+                                      TempData.Target = npc
+                                  end
+                          
+                                  TempData.AutofarmThread = game:GetService("RunService").RenderStepped:Connect(function()
+                                      if TempData.Target:FindFirstChild("HumanoidRootPart") and (TempData.Target:FindFirstChild("Humanoid") and TempData.Target:FindFirstChild("Humanoid").Health > 0.11) and not TempData.Completed and TempData.Farming then
+                                          Player.Character.PrimaryPart.CFrame = (TempData.Target:FindFirstChild("HumanoidRootPart").CFrame - TempData.Target:FindFirstChild("HumanoidRootPart").CFrame.lookVector * TempData.AutofarmSettings.Distance)
+                          
+                                          if Func.ReturnData("HasStand") and not game.Players.LocalPlayer.Character.SummonedStand.Value and TempData.AutofarmSettings["Auto Spawn Stand"] then
+                                              local args = {
+                                                  [1] = "ToggleStand",
+                                                  [2] = "Toggle"
+                                              }
+                          
+                                              game:GetService("Players").LocalPlayer.Character.RemoteFunction:InvokeServer(unpack(args))
+                                          end
+                          
+                                          coroutine.resume(coroutine.create(function()
+                                              TempData.Moves["All"]()
+                                          end))
+                          
+                                      else
+                          
+                                          TempData.Stop()
+                                      end
+                                  end)
+                              end
+                          
+                              TempData.Stop = function()
+                                  if TempData.AutofarmThread then
+                                      TempData.AutofarmThread:Disconnect();
+                                      TempData.Target = nil
+                                      TempData.Completed = true
+                                      TempData.AutofarmSettings.FixThread:Disconnect();
+                                  end
+                              end
+                          
+                              TempData.UpdateList = function()
+                                  TempData.AutofarmSettings["NPC_Table"] = {} --//clear the table
+                          
+                                  for i,v in pairs(workspace.Living:GetChildren()) do
+                                      if not table.find(TempData.AutofarmSettings["NPC_Table"], v.Name) then
+                                          table.insert(TempData.AutofarmSettings["NPC_Table"], v.Name)
+                                      end
+                                  end
+                              end
+                          tab:Line()
+                          print("Script Batch 8 Loaded")
+          
+                              tab:Toggle("Autofarm NPC", "Farms the selected NPC", false, function(state)
+                                  TempData.Farming = state
+                                  TempData.AutofarmSettings.FixThread = Player.CharacterAdded:Connect(function()
+                                      TempData.Stop()
+                                  end)
+                                  if state then
+                                      while TempData.Farming do
+                                          wait()				
+                                          for _, npc in pairs(workspace.Living:GetChildren()) do
+                                              if npc.Name == TempData.AutofarmSettings.SelectedNPC then
+                                                  TempData.Kill(npc)
+                          
+                                                  repeat wait(1) until TempData.Completed or not TempData.Farming
+                                                  TempData.Completed = false
+                                              end
+                                          end
+                          
+                                          if not TempData.Farming then
+                                              break
+                                          end
+                                      end
+                                  else
+                                      TempData.Stop()
+                                  end 
+                                    
+                                end)
+                                TempData.UpdateList()
+                          
+                                local NPCSelection = tab:Dropdown("NPC Selection", TempData.AutofarmSettings["NPC_Table"], function(selected)
+                                    TempData.AutofarmSettings.SelectedNPC = selected
+                                end)
+                            
+                                game.Players.PlayerAdded:Connect(function()
+                                    TempData.UpdateList()
+                                    NPCSelection:Update(TempData.AutofarmSettings["NPC_Table"])
+                                end)
+                            
+                                game.Players.PlayerRemoving:Connect(function()
+                                    TempData.UpdateList()
+                                    NPCSelection:Update(TempData.AutofarmSettings["NPC_Table"])
+                                end)
+                
+                                tab:Toggle("Auto Quests", "Automatically Does Quests While Farming", false, function(Boolean)
+                                  if Boolean then
+                                    TempData["AutoQuest"] = true;
+                                    while wait(15) do   
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Zeppelin",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue4"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Zeppelin Dialouge Success!")
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Dracula",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue4"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Dracula Dialouge Success!")
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Officer Sam",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue2"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Officer Sam Dialouge Success!")
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Lion Abbacho's Partner",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue6"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Abbacho Partner Dialouge Success!")
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Deputy Bertrude",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue2"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Bertrude Dialouge Success!")
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Dopey",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue5"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Dopey Dialouge Success!")
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Deo",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue4"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Dio Dialouge Success!")
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Darius The Executioner",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue2"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Prestige",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue2"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      print("Darius Dialouge Success!")
+                                        if not TempData["AutoQuest"] then
+                                            break
+                                        end
+                                    end    
+                                else
+                                    TempData["AutoQuest"] = false;
+                                end
+                                end)
+                          
+                                tab:Toggle("Spam M1's", "Spamms M1's", false, function(Boolean)
+                                  if Boolean then
+                                      TempData["M1s"] = true;
+                                      while wait(0.1) do
+                                          Player.Character.RemoteFunction:InvokeServer("Attack", "m1")
+                                          print("Attacked Successfully")
+                                          if not TempData["M1s"] then
+                                              break
+                                          end
+                                      end            
+                                  else
+                                      TempData["M1s"] = false;
+                                  end
+                              end)
+                              print("Script Batch 9 Loaded")
+          
+                            tab:Toggle("Auto Equip Stand", "Automatically Equips Your Stand While Farming", false, function(Boolean)
+                              if Boolean then
+                                TempData["AutoStand"] = true;
+                                while wait(0.5) do
+                                  if not game.Players.LocalPlayer.Character.SummonedStand.Value then
+                                    local args = {
+                                        [1] = "ToggleStand",
+                                        [2] = "Toggle"
+                                    }
+                
+                                    game:GetService("Players").LocalPlayer.Character.RemoteFunction:InvokeServer(unpack(args))
+                                
+                                    print("Toggled Stand Successfully")
+                                
+                                    if not TempData["AutoStand"] then
+                                        break
+                                    end
+                                end   
+                              end
+                            if Boolean == false then do
+                              TempData["AutoStand"] = false;
+                            end
+                              end
+                          end
+                            end)
+                            
+                           
+                            
+                
+                              tab:Slider("Distance from NPC","The Distance Between You And The NPC", 1, 7, 5, function(new)
+                                  TempData.AutofarmSettings.Distance = new
+                              end)
+                              tab:Line()
+                              local tab = win:Tab("Shop", "http://www.roblox.com/asset/?id=6031265976")
+                              tab:Button("Buy Hamon (15k)", "Buys Hamon For You.", function()
+                                local args = {
+                                  [1] = "EndDialogue",
+                                  [2] = {
+                                    ["NPC"] = "Jonathan Joemama",
+                                    ["Option"] = "Option1",
+                                    ["Dialogue"] = "Dialogue5"
+                                  }
+                                }
+                            
+                                game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                print("Attemted To Buy Hamon")
+                                Flux:Notification("Attemped To Buy!", "Alright")
+                                end)
+                tab:Line()
+                                tab:Button("Buy Boxing (10k)", "Buys Boxing For You.", function()
+                                  local args = {
+                                    [1] = "EndDialogue",
+                                    [2] = {
+                                      ["NPC"] = "Quinton",
+                                      ["Option"] = "Option1",
+                                      ["Dialogue"] = "Dialogue5"
+                                    }
+                                  }
+                              
+                                  game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                  Flux:Notification("Attemped To Buy!", "Alright")
+                                  print("Attemted To Buy Boxing")
+                                  end)
+                                  tab:Button("Buy Boxing Gloves (1k)", "Buys Boxing Gloves For You.", function()
+                                    local args = {
+                                      [1] = "EndDialogue",
+                                      [2] = {
+                                        ["NPC"] = "Boxing Gloves",
+                                        ["Option"] = "Option1",
+                                        ["Dialogue"] = "Dialogue1"
+                                      }
+                                    }
+                                
+                                    game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                    Flux:Notification("Attemped To Buy!", "Alright")
+                                    print("Attemted To Buy Gloves")
+                                    end)
+                
+                                    tab:Line( )
+                
+                                  tab:Button("Buy Pluck Spec (10k)", "Buys Pluck For You", function()
+                                    local args = {
+                                      [1] = "EndDialogue",
+                                      [2] = {
+                                        ["NPC"] = "Uzurashi",
+                                        ["Option"] = "Option1",
+                                        ["Dialogue"] = "Dialogue5"
+                                      }
+                                    }
+                                
+                                    game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                    Flux:Notification("Attemped To Buy!", "Alright")
+                                    print("Attemted To Buy Pluck(Spec)")
+                                    end)
+                
+                                    tab:Button("Buy Pluck Sword (1k)", "Buys Pluck For You", function()
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Pluck",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue1"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      Flux:Notification("Attemped To Buy!", "Alright")
+                                      print("Attemted To Buy Pluck(Sword)")
+                                      end)
+                
+                                      tab:Line()
+                
+                                    tab:Button("Buy Vampire Spec (10k)", "Buys Vampire For You.", function()
+                                      local args = {
+                                        [1] = "EndDialogue",
+                                        [2] = {
+                                          ["NPC"] = "Elder Vampire Roomy",
+                                          ["Option"] = "Option1",
+                                          ["Dialogue"] = "Dialogue5"
+                                        }
+                                      }
+                                  
+                                      game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                      Flux:Notification("Attemped To Buy!", "Alright")
+                                      print("Attemted To Buy Vampire Spec")
+                                      end)
+                tab:Line()
+                                      tab:Button("Buy Requiem Arrow (7,5k + Arrow + Done SBR Quest)", "Buys Requiem Arrow For You.", function()
+                                        local args = {
+                                          [1] = "EndDialogue",
+                                          [2] = {
+                                            ["NPC"] = "Isabelle the Arrowsmith",
+                                            ["Option"] = "Option1",
+                                            ["Dialogue"] = "Dialogue4"
+                                          }
+                                        }
+                                    
+                                        game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                        Flux:Notification("Attemped To Buy!", "Alright")
+                                        print("Attemted To Buy Requiem Arrow")
+                                        end)
+                
+                                        tab:Button("Buy Cosmetic (Presige 2,3 + 10k)", "Buys A Random Cosmetic For You.", function()
+                                          local args = {
+                                            [1] = "EndDialogue",
+                                            [2] = {
+                                              ["NPC"] = "Cometic Roller",
+                                              ["Option"] = "Option1",
+                                              ["Dialogue"] = "Dialogue2"
+                                            }
+                                          }
+                                      
+                                          game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                          Flux:Notification("Attemped To Buy!", "Alright")
+                                          print("Attemted To Buy Cosmetic")
+                                          end)
+                
+                                          tab:Button("Remove Spec (5k And 3 Diamonds)", "Buys  For You.", function()
+                                            local args = {
+                                              [1] = "EndDialogue",
+                                              [2] = {
+                                                ["NPC"] = "Matheus",
+                                                ["Option"] = "Option1",
+                                                ["Dialogue"] = "Dialogue5"
+                                              }
+                                            }
+                                        
+                                            game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                            Flux:Notification("Attemped To Buy!", "Alright")
+                                            print("Attemted To Reset Spec")
+                                            end)
+                                            local Player = game.Players.LocalPlayer
+                
+                                            tab:Button("Buy Blood (50$)", "Buys Blood For You.", function()
+                                              local args = {
+                                                [1] = "EndDialogue",
+                                                [2] = {
+                                                  ["NPC"] = "Alex",
+                                                  ["Option"] = "Option1",
+                                                  ["Dialogue"] = "Dialogue4"
+                                                }
+                                              }
+                                          
+                                              game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                              
+                                              local bloood = game:GetService("Players").LocalPlayer.Backpack["Bottle of Blood"]
+                                              Player.Character.Humanoid:EquipTool(bloood)
+                                              Flux:Notification("Attemped To Buy!", "Alright")
+                                              print("Attemted To Buy Blood")
+                                              end)
+                
+                                             
+                                              tab:Toggle("Auto Buy Blood", "Buys Blood For You Every 5 Seconds.",false, function(Boolean)
+                                                if Boolean then do
+                                                  TempData["AutoBlood"] = true;
+                                                  while wait(TempData["Blooda"]) do
+                                                    local args = {
+                                                      [1] = "EndDialogue",
+                                                      [2] = {
+                                                        ["NPC"] = "Alex",
+                                                        ["Option"] = "Option1",
+                                                        ["Dialogue"] = "Dialogue4"
+                                                      }
+                                                    }
+                                                
+                                                    game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                                    print("Attemted To Buy Blood")
+                                                      if not TempData["AutoBlood"] then
+                                                          break
+                                                      end
+                                                  end  
+                                                  end
+                                              else
+                                                  TempData["AutoBlood"] = false;
+                                                  end
+                                                end)
+                
+                                                tab:Slider("Time Between Auto Buy Blood", "The Time Between You Auto Buy Blood.", 1, 10,5,function(Blood)
+                                                  TempData["Blooda"] = Blood
+                                                  print("Blood Time Set To", Blood)
+                                                  end)
+          
+                                                  tab:Toggle("Auto Buy Cosmetic (Prestige 2+ and 10k)", "Automatically Buys Cosmetic Every 12 Hours", false, function(Boolean)
+                                                      print("Attemting To Buy Cosmetic")
+                                                      if Boolean then
+                                                        TempData["AutoCosm"] = true;
+                                                        while wait(43200) do
+                                                          local args = {
+                                                              [1] = "EndDialogue",
+                                                              [2] = {
+                                                                ["NPC"] = "Cometic Roller",
+                                                                ["Option"] = "Option1",
+                                                                ["Dialogue"] = "Dialogue2"
+                                                              }
+                                                            }
+                                                        
+                                                            game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(unpack(args))
+                                                            print("Toggled AutoCosmetic Successfully")
+                                                          
+                                                            if not TempData["AutoCosm"] then
+                                                                break
+                                                            end
+                                                            end
+                                                        end    
+                                                    if Boolean == false then do
+                                                      TempData["AutoCosm"] = false;
+                                                    end
+                                                      end
+                                                  
+                                               
+                                                    end)
+                                                
+                                                    print("Script Batch 10 Loaded")
+          
+                              local tab = win:Tab("Fun Extras", "http://www.roblox.com/asset/?id=6031265978")
+                              tab:Toggle("Wide FOV", "Changes FOV to epic!",false, function(Boolean)
+                                if Boolean then do
+                                  game:GetService("Workspace").Camera.FieldOfView = 120
+                                  print("Fov Set To 120")
+                                end
+                              else
+                                  game:GetService("Workspace").Camera.FieldOfView = 70
+                                  print("Fov Set To 70")
+                end
+                            end)
+                          
+                            tab:Button("Random FOV", "Changes FOV to Random :troll:!",false, function()
+                             
+                                game:GetService("Workspace").Camera.FieldOfView = math.random(1,120)
+                                print("Fov Set To Random")
+                          end)
+                
+                              tab:Toggle("No Glasses Mode", "Enables No Glasses Mode.",false, function(Boolean)
+                if Boolean then do
+                game:GetService("Lighting").HUDBlur.Size = 1000000
+                print("Blur Set")
+                end
+                else
+                game:GetService("Lighting").HUDBlur.Size = 0.1
+                print("Blur Removed")
+                end
+              end)
+          
+            
+              tab:Toggle("Funny Pilot Looking Thing", "Yes", false, function(Boolean)
+                if Boolean then
+                  TempData["FunnyPilot"] = true;
+                  while wait(0.5) do
+                    game:GetService("Workspace").Living.LocalPlayer.HumanoidRootPart.StandAttach.Position = Vector3.new(0, -0.5, 0)
+                      print("Toggled Funny Successfully")
+                      if not TempData["FunnyPilot"] then
+                          break
+                      end
+                  end    
+              if Boolean == false then do
+                TempData["FunnyPilot"] = false;
+              end
+                end
+                end
+              end)
+
+                              
+                              tab:Slider("FOV", "Slider for FOV.", 1, 120,70,function(FOV)
+                                game:GetService("Workspace").Camera.FieldOfView = FOV
+                                print("FOV Set To", FOV)
+                                end)
+                                tab:Button("Turn Into Uzu", "Turns You Into Uzu", function()
+                game.Players.LocalPlayer.Name = "UzuKee"
+                print("Name Set To UzuKee")
+                game.Players.LocalPlayer.UserId = "19919175"
+                print("UserId Set To Uzu's")
+                game.Players.LocalPlayer.DisplayName = "OhMyBruh1"
+                print("DisplayName Set To OhMyBruh1")
+                Player.Character.Humanoid:Destroy()
+                print("Reset")
+                Flux:Notifacation("You Are Now UzuKee", "Aight")
+                print("Turned Into Uzu Successfully")
+                end)
+                                tab:Button("Get Funny Oni Mod Spec", "Gives You Funny Oni (doesnt actually give it lol)", function()
+                                  Player.PlayerStats.Spec.Value = "Oni"
+                                  print("Spec Set To Oni")
+                                end)
+                               
+                          
+                local tab = win:Tab("Credits", "http://www.roblox.com/asset/?id=6023426924")
+                tab:Label("Credits To Dawid (V3rm) For GUI")
+                tab:Label("Credits To Charwar V3rm For Server Hop")
+                tab:Label("Credits To Enxquity For Helping Me B).")
+                tab:Label("Also Credits To Hoover For Helping Me B).")
+                tab:Button("Join FrodHub","Copies Discord Link To Clipboard",function()
+                setclipboard("https://discord.gg/tAnDSe6Qt6")
+                print("Copied Frodhub Discord Link")
+                end)
+                tab:Button("Join XenonHub", "Copies Discord Link To Clipboard.", function()
+                  setclipboard("https://discord.gg/f7TsdvSv6x")
+                  Flux:Notification("Copied Link To ClipBoard!", "Alright")
+                  print("Copied XenonHub Discord Link")
+                  end)
+                tab:Button("Join HooverFarm", "Copies Discord Link To Clipboard.", function()
+                setclipboard("https://discord.gg/DvxX3f7JVy")
+                Flux:Notification("Copied Link To ClipBoard!", "Alright")
+                print("Copied HooverFarm Discord Link")
+                end)
+                game.StarterGui:SetCore("SendNotification", {
+                  Title = "FrodHub";
+                  Text = "Script Loaded!.",
+                  Duration = 3
+              })
+              print("Script Fully Loaded")
+              --//HWID Check Here
+--[[             while true do
+ local http_request = http_request;
+if syn then
+	http_request = syn.request
+elseif SENTINEL_V2 then
+	function http_request(tb)
+		return {
+			StatusCode = 200;
+			Body = request(tb.Url, tb.Method, (tb.Body or ''))
+		}
+	end
+end
+
+if (not http_request) then
+	return game:GetService('Players').LocalPlayer:Kick('Unable to find proper request function')
+end
+
+-- // define hash function
+
+local hash; do
+    local MOD = 2^32
+    local MODM = MOD-1
+    local bxor = bit32.bxor;
+    local band = bit32.band;
+    local bnot = bit32.bnot;
+    local rshift1 = bit32.rshift;
+    local rshift = bit32.rshift;
+    local lshift = bit32.lshift;
+    local rrotate = bit32.rrotate;
+
+    local str_gsub = string.gsub;
+    local str_fmt = string.format;
+    local str_byte = string.byte;
+    local str_char = string.char;
+    local str_rep = string.rep;
+
+    local k = {
+	    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
+	    0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+	    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
+	    0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+	    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
+	    0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+	    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
+	    0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+	    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
+	    0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+	    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3,
+	    0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+	    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
+	    0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+	    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
+	    0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
+    }
+    local function str2hexa(s)
+        return (str_gsub(s, ".", function(c) return str_fmt("%02x", str_byte(c)) end))
+    end
+    local function num2s(l, n)
+        local s = ""
+        for i = 1, n do
+            local rem = l % 256
+            s = str_char(rem) .. s
+            l = (l - rem) / 256
+        end
+        return s
+    end
+    local function s232num(s, i)
+        local n = 0
+        for i = i, i + 3 do n = n*256 + str_byte(s, i) end
+        return n
+        end
+        local function preproc(msg, len)
+        local extra = 64 - ((len + 9) % 64)
+        len = num2s(8 * len, 8)
+        msg = msg .. "\128" .. str_rep("\0", extra) .. len
+        assert(#msg % 64 == 0)
+        return msg
+    end
+    local function initH256(H)
+        H[1] = 0x6a09e667
+        H[2] = 0xbb67ae85
+        H[3] = 0x3c6ef372
+        H[4] = 0xa54ff53a
+        H[5] = 0x510e527f
+        H[6] = 0x9b05688c
+        H[7] = 0x1f83d9ab
+        H[8] = 0x5be0cd19
+        return H
+    end
+    local function digestblock(msg, i, H)
+        local w = {}
+        for j = 1, 16 do w[j] = s232num(msg, i + (j - 1)*4) end
+        for j = 17, 64 do
+            local v = w[j - 15]
+            local s0 = bxor(rrotate(v, 7), rrotate(v, 18), rshift(v, 3))
+            v = w[j - 2]
+            w[j] = w[j - 16] + s0 + w[j - 7] + bxor(rrotate(v, 17), rrotate(v, 19), rshift(v, 10))
+        end
+        local a, b, c, d, e, f, g, h = H[1], H[2], H[3], H[4], H[5], H[6], H[7], H[8]
+        for i = 1, 64 do
+            local s0 = bxor(rrotate(a, 2), rrotate(a, 13), rrotate(a, 22))
+            local maj = bxor(band(a, b), band(a, c), band(b, c))
+            local t2 = s0 + maj
+            local s1 = bxor(rrotate(e, 6), rrotate(e, 11), rrotate(e, 25))
+            local ch = bxor(band(e, f), band(bnot(e), g))
+            local t1 = h + s1 + ch + k[i] + w[i]
+            h, g, f, e, d, c, b, a = g, f, e, d + t1, c, b, a, t1 + t2
+        end
+        H[1] = band(H[1] + a)
+        H[2] = band(H[2] + b)
+        H[3] = band(H[3] + c)
+        H[4] = band(H[4] + d)
+        H[5] = band(H[5] + e)
+        H[6] = band(H[6] + f)
+        H[7] = band(H[7] + g)
+        H[8] = band(H[8] + h)
+    end
+    function hash(msg, t) 
+        msg = preproc(msg, #msg)
+        local H = initH256({})
+        for i = 1, #msg, 64 do digestblock(msg, i, H) end
+        return str2hexa(num2s(H[1], 4) .. num2s(H[2], 4) .. num2s(H[3], 4) .. num2s(H[4], 4) .. num2s(H[5], 4) .. num2s(H[6], 4) .. num2s(H[7], 4) .. num2s(H[8], 4))
+    end
+end
+
+
+
+local key = (_G.key)
+local data = http_request({
+	Url = ('https://whitelistaaaaaaa.000webhostapp.com/server.php?key=' .. key);
+	Method = 'GET';
+})
+
+if data.StatusCode == 200 then
+	local response = data.Body;
+	if response == not hash(key) then
+        Player:Kick("bruh")
+    end
+end
+
+
+              wait(1)
+                  end
+           
+              ]]
+
